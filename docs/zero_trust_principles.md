@@ -1,4 +1,4 @@
-# Zero Trust Architecture — Core Principles
+# Zero Trust Architecture Core Principles
 
 ## Overview
 
@@ -8,18 +8,18 @@ Zero Trust is a security model based on one principle:
 
 Traditional security assumed everything inside the network perimeter
 was safe. Zero Trust assumes the perimeter has already been breached.
-Every user, device, and connection must prove itself — every time.
+Every user, device, and connection must prove itself every time.
 
 ---
 
 ## The 3 Core Pillars of Zero Trust
 
-### Pillar 1 — Verify Explicitly
+### Pillar 1 Verify Explicitly
 
 ```
 WHAT IT MEANS:
 Always authenticate and authorise based on all available
-data points — identity, location, device, service, workload,
+data points identity, location, device, service, workload,
 data classification, and anomalies.
 
 NEVER assume trust based on:
@@ -31,23 +31,23 @@ NEVER assume trust based on:
 SOC IMPLICATION:
 Every access request generates a log entry.
 Every log entry is a detection opportunity.
-Zero Trust creates more visibility — not less.
+Zero Trust creates more visibility not less.
 ```
 
 ---
 
-### Pillar 2 — Use Least Privilege Access
+### Pillar 2 Use Least Privilege Access
 
 ```
 WHAT IT MEANS:
-Limit user access to only what they need —
+Limit user access to only what they need
 and only for as long as they need it.
 
 Principles:
-- Just-in-time (JIT) access — grant access only when needed
-- Just-enough-access (JEA) — grant only the minimum permissions
-- Risk-based adaptive policies — increase friction for risky access
-- Data protection — limit what data users can see and export
+- Just-in-time (JIT) access grant access only when needed
+- Just-enough-access (JEA) grant only the minimum permissions
+- Risk-based adaptive policies increase friction for risky access
+- Data protection limit what data users can see and export
 
 SOC IMPLICATION:
 Privilege escalation attacks become much harder.
@@ -57,13 +57,13 @@ does far less damage than one with admin rights.
 
 ---
 
-### Pillar 3 — Assume Breach
+### Pillar 3 Assume Breach
 
 ```
 WHAT IT MEANS:
 Design as if attackers are already inside.
 Minimise blast radius. Segment access. Encrypt everything.
-Hunt proactively — don't wait for alerts.
+Hunt proactively don't wait for alerts.
 
 Actions:
 - Segment networks so attackers can't move laterally
@@ -87,7 +87,7 @@ The primary security perimeter in Zero Trust.
 Every access request starts with identity verification.
 
 Controls:
-- Multi-factor authentication (MFA) — mandatory
+- Multi-factor authentication (MFA) mandatory
 - Privileged Identity Management (PIM)
 - Conditional access policies
 - Identity risk scoring
@@ -100,7 +100,7 @@ Tools: Azure AD, Okta, CrowdStrike Identity
 ### 2. Devices
 ```
 Every device must be verified before granting access.
-Unknown or non-compliant devices are blocked.
+Unknown or non compliant devices are blocked.
 
 Controls:
 - Device compliance policies
@@ -167,7 +167,7 @@ Tools: Microsoft Purview, Varonis, Digital Guardian
 |---|---|---|
 | Trust model | Trust inside the network | Never trust anyone |
 | Perimeter | Hard external boundary | Identity is the perimeter |
-| Lateral movement | Easy — attackers move freely | Hard — micro-segmentation blocks it |
+| Lateral movement | Easy attackers move freely | Hard micro-segmentation blocks it |
 | Remote access | VPN | ZTNA |
 | Detection | Perimeter monitoring | Behavioural analytics everywhere |
 | Breach assumption | External threats | Assume already breached |
