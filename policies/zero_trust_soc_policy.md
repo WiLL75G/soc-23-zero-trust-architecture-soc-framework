@@ -12,18 +12,18 @@ hostile until verified.
 
 ---
 
-## Policy 1 — Identity Verification Policy
+## Policy 1 Identity Verification Policy
 
 ### Rule
 All users must authenticate with MFA before accessing any
-corporate resource — no exceptions.
+corporate resource no exceptions.
 
 ### Requirements
 ```
-✅ MFA mandatory for all accounts — including service accounts
+✅ MFA mandatory for all accounts including service accounts
 ✅ Privileged accounts require hardware security keys (FIDO2)
-✅ Session tokens expire after 8 hours — re-authentication required
-✅ Risk-based conditional access — block or challenge anomalous logins
+✅ Session tokens expire after 8 hours re-authentication required
+✅ Risk-based conditional access block or challenge anomalous logins
 ✅ All authentication events logged to SIEM
 ```
 
@@ -45,7 +45,7 @@ T1556  — Modify Authentication Process
 
 ---
 
-## Policy 2 — Device Compliance Policy
+## Policy 2 Device Compliance Policy
 
 ### Rule
 Only compliant, managed devices may access corporate resources.
@@ -78,7 +78,7 @@ T1562  — Impair Defenses
 
 ---
 
-## Policy 3 — Network Segmentation Policy
+## Policy 3 Network Segmentation Policy
 
 ### Rule
 The flat network is replaced by micro-segmented zones.
@@ -100,7 +100,7 @@ Zone 3 — Privileged Access Zone
 
 Zone 4 — Data Zone
          Databases and sensitive data stores
-         No direct user access — API gateway only
+         No direct user access API gateway only
 
 Zone 5 — SOC Zone
          Security monitoring infrastructure
@@ -126,11 +126,11 @@ T1570  — Lateral Tool Transfer
 
 ---
 
-## Policy 4 — Least Privilege Access Policy
+## Policy 4 Least Privilege Access Policy
 
 ### Rule
 Every user and service account has the minimum permissions
-required to perform their role — and nothing more.
+required to perform their role and nothing more.
 
 ### Requirements
 ```
@@ -183,7 +183,7 @@ T1134  — Access Token Manipulation
 
 ---
 
-## Policy 5 — Data Protection Policy
+## Policy 5 Data Protection Policy
 
 ### Rule
 All data is classified and protected according to its
@@ -230,7 +230,7 @@ T1005  — Data from Local System
 
 ## SOC Response Procedures for Zero Trust Violations
 
-### Severity 1 — Critical (Automatic Response)
+### Severity 1 Critical (Automatic Response)
 ```
 Trigger: MFA bypass + privileged access
          Impossible travel + data export
@@ -244,7 +244,7 @@ Response:
 5. Initiate IR playbook
 ```
 
-### Severity 2 — High (SOC Triage Required)
+### Severity 2 High (SOC Triage Required)
 ```
 Trigger: Unknown device access attempt
          Policy violation by privileged account
@@ -253,11 +253,11 @@ Trigger: Unknown device access attempt
 Response:
 1. Alert fires in SIEM — SOC Tier 1 triages
 2. Investigate within 15 minutes
-3. Contain if confirmed — isolate account/device
+3. Contain if confirmed isolate account/device
 4. Escalate to Tier 2 with full triage notes
 ```
 
-### Severity 3 — Medium (Investigation Required)
+### Severity 3 Medium (Investigation Required)
 ```
 Trigger: Standard user accessing new resource
          Login from new location (not impossible)
