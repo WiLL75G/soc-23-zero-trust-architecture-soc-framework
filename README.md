@@ -155,7 +155,7 @@ A complete Zero Trust Architecture framework was designed and documented for Nex
 - Identity is the new perimeter MFA and conditional access are the most critical controls
 - Micro-segmentation is the most effective control against ransomware lateral movement
 - Data classification is the foundation of all data protection controls
-- Assume Breach posture means the SOC hunts proactively — not just reactively
+- Assume Breach posture means the SOC hunts proactively not just reactively
 
 ---
 
