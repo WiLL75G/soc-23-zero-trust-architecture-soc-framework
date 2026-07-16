@@ -1,192 +1,185 @@
-# SOC Tier 1 Incident Report: Zero Trust Architecture & SOC Framework
+# Zero Trust Architecture and SOC Policy Framework
 
----
+Designing the architecture, not responding to it. Three Zero Trust pillars across five domains, translated into detection rules a SOC can actually run.
 
-## Incident Summary
+## At a Glance
 
-- **Project Type:** Zero Trust Architecture Design & SOC Policy Framework
-- **Severity:** Strategic Enterprise Security Architecture
-- **Scope:** Identity, Devices, Network, Applications, Data
-- **Tools Referenced:** Azure AD, CrowdStrike, Zscaler, Microsoft Purview, Splunk
-- **Status:** Complete ZTA Framework and SOC Policy Delivered
+| Field | Detail |
+| --- | --- |
+| Work Type | Security architecture design and policy authoring |
+| Framework | Zero Trust, verify explicitly, least privilege, assume breach |
+| Domains | Identity, devices, network, applications, data |
+| Delivered | 5 policies, detection rules per domain, ATT&CK mapping, 5 zone segmentation model |
+| Organisation | Nexus Corp, fictional |
 
----
+## What This Is
 
-## Executive Summary
+Zero Trust is not a product and it is not a purchase. It is the decision to stop treating "inside the network" as evidence of anything.
 
-A complete Zero Trust Architecture framework was designed and documented for Nexus Corp's Security Operations Center. The framework covers the three core ZTA pillars Verify Explicitly, Use Least Privilege, and Assume Breach across five security domains: Identity, Devices, Network, Applications, and Data. Five enterprise grade SOC policies were produced with detection rules, MITRE ATT&CK mappings, and automated response procedures. This framework replaces the traditional perimeter-based security model with an identity first, assume-breach posture.
+The old model trusted location. Get past the firewall and you were trusted, which meant one phished credential bought an attacker the entire estate. Zero Trust replaces that with the position that no request is trusted regardless of where it came from, and every access is verified on its own merits.
 
----
+For a SOC that changes the work in one specific way: verification generates telemetry. Every access decision becomes a logged event, and every logged event is a detection opportunity that did not exist under implicit trust.
 
-## Affected System
+Scope stated plainly: this is a design and policy exercise for a fictional organisation, written on paper. It is not a deployed architecture. What it demonstrates is understanding the model well enough to translate it into rules.
 
-- **Organisation:** Nexus Corp SOC
-- **Scope:** All users, devices, networks, applications, and data
-- **Current Model:** Traditional perimeter based security
-- **Target Model:** Zero Trust Architecture
-- **Migration Priority:** Identity → Devices → Network → Applications → Data
+## The Three Pillars
 
----
+Verify explicitly. Authenticate and authorise on every request, using identity, device health, location, and behaviour. Not once at the door.
 
-## Investigation Methodology
+Least privilege. Just enough access, just in time, and it expires.
 
----
+Assume breach. Design as though the attacker is already inside, because eventually they are. This is the pillar the SOC lives in. Threat hunting and behavioural analytics only make sense if you have already accepted that prevention failed somewhere.
 
-### 1. Zero Trust Core Principles Documented
+The SOC reading of Zero Trust: the first two pillars are engineering's job. The third one is yours.
 
-- Documented the 3 core ZTA pillars Verify Explicitly, Least Privilege, Assume Breach
-- Mapped each pillar to SOC operations and detection strategy
-- Compared Zero Trust vs traditional perimeter security model
-- Identified the 5 ZTA components and their tooling requirements
+## Identity
 
-#### SOC Observations:
+Controls:
 
-- Zero Trust creates more log data which means more detection opportunities for the SOC
-- The "Assume Breach" pillar is where SOC operations live threat hunting and behavioural analytics
-- Identity has replaced the network perimeter every authentication event is a security event
+MFA mandatory on all accounts, service accounts included.
 
----
+Hardware keys for privileged accounts.
 
-### 2. Identity Verification Policy
+Risk based conditional access blocking anomalous logins automatically.
 
-- MFA mandatory for all accounts including service accounts
-- Hardware security keys required for privileged accounts
-- Risk-based conditional access blocks anomalous logins automatically
-- All authentication events logged to SIEM for SOC visibility
+All authentication events shipped to the SIEM.
 
-#### SOC Detection Rules Built:
-- Login from new country or impossible travel
-- MFA bypass attempt detected
-- Service account login outside maintenance window
-- Failed MFA attempts exceeding threshold
+Detection rules:
 
-#### SOC Observations:
+Login from a new country, or impossible travel.
 
-- MFA is the single most effective control against credential-based attacks
-- Service account logins outside maintenance windows are a confirmed red flag
-- Risk-based conditional access automates Tier 1 decisions at machine speed
+MFA bypass attempt.
 
----
+Service account login outside a maintenance window.
 
-### 3. Device Compliance Policy
+Failed MFA exceeding threshold.
 
-- All devices enrolled in MDM before network access is granted
-- EDR agent mandatory on all endpoints
-- Device health verified at every login not just enrolment
-- Non-compliant devices blocked at the access layer automatically
+The service account rule is the strongest of the four. A human logging in at an odd hour has an explanation. A service account is a schedule, and a schedule that deviates is not tired or travelling, it is being used by someone.
 
-#### SOC Detection Rules Built:
-- Unmanaged device attempting network access
-- EDR agent disabled or uninstalled
-- Device accessing resources from unusual location
+Identity is where the perimeter went. Every authentication event is now a security event, which is a much larger log volume and a much better detection surface.
 
-#### SOC Observations:
+## Devices
 
-- An EDR agent that gets disabled is an immediate high severity alert
-- Device compliance checks at login catch compromised endpoints before they cause damage
-- BYOD environments require stricter device posture policies
+Controls:
 
----
+MDM enrolment before network access.
 
-### 4. Network Segmentation Policy
+EDR agent mandatory on every endpoint.
 
-- Flat network replaced with 5 micro segmented zones
-- No implicit trust between zones all cross-zone traffic requires policy
-- SOC Zone isolated from all other zones monitoring infrastructure protected
-- Privileged Access Zone requires jump host + MFA + hardware token
+Device health verified at every login, not just at enrolment.
 
-#### Network Zones Designed:
-- Zone 1: Public DMZ
-- Zone 2: Corporate Network
-- Zone 3: Privileged Access Zone
-- Zone 4: Data Zone
-- Zone 5: SOC Zone (isolated)
+Non compliant devices blocked at the access layer.
 
-#### SOC Observations:
+Detection rules:
 
-- Micro-segmentation is the most effective control against lateral movement
-- Isolating the SOC Zone means attackers who breach the corporate network cannot reach monitoring tools
-- Cross-zone traffic alerts are high-fidelity legitimate cross-zone traffic should be rare and documented
+Unmanaged device attempting access.
 
----
+EDR agent disabled or uninstalled.
 
-### 5. Data Protection Policy
+Device accessing resources from an unusual location.
 
-- Four-tier data classification system Public, Internal, Confidential, Secret
-- DLP policies active on all Confidential and Secret data
-- Bulk export alerts fire immediately for sensitive data
-- IRM protection applied to Secret classification data
+The EDR disabled rule is the one that matters. It is the only alert on the list where there is no benign version. Nobody disables their EDR by accident, and an attacker who does it has told you they are there and what they intend to do next.
 
-#### SOC Detection Rules Built:
-- Confidential data accessed from unmanaged device
-- Secret data download exceeding 50MB
-- DLP policy violation data exfiltration attempt
-- Classified data sent to external email address
+Checking health at every login rather than at enrolment is the Zero Trust part. A device that was compliant in March is not evidence of anything in July.
 
-#### SOC Observations:
+## Network
 
-- Data classification is the foundation of DLP you cannot protect what you haven't labelled
-- Bulk export of PII records is one of the highest risk events in any SOC environment
-- Data exfiltration over web services is the most common exfiltration technique — T1567
+Five zones replacing a flat network. No implicit trust between them, all cross zone traffic policed.
 
----
+Zone 1, public DMZ.
+
+Zone 2, corporate.
+
+Zone 3, privileged access, requires jump host plus MFA plus hardware token.
+
+Zone 4, data.
+
+Zone 5, SOC, isolated from everything.
+
+Micro segmentation is the control that answers ransomware. Ransomware's damage is not encryption, it is spread. Segmentation does not stop the first host from being encrypted, it stops the other four hundred.
+
+Isolating the SOC zone is the detail worth defending in an interview. An attacker in the corporate network who can reach the SIEM can delete their own evidence, disable the rules watching them, and turn the investigation off from inside. The monitoring infrastructure has to be somewhere the compromise cannot reach.
+
+Cross zone traffic alerts are high fidelity by design. Legitimate cross zone traffic should be rare and documented, which means anything undocumented is worth a look. That is the opposite of most SIEM rules, and it is why segmentation improves detection as well as containment.
+
+## Data
+
+Four tier classification: public, internal, confidential, secret.
+
+DLP active on confidential and secret. Bulk export alerting. IRM on secret.
+
+Detection rules:
+
+Confidential data accessed from an unmanaged device.
+
+Secret data download exceeding threshold.
+
+DLP policy violation.
+
+Classified data sent to an external address.
+
+Classification is the foundation and it is the step organisations skip. You cannot write a DLP rule for "sensitive data" because DLP does not know what that means. Every data control downstream depends on the labels existing first, and labelling is unglamorous work that nobody wants to fund.
+
+## Privileged Access
+
+Tiered model, Tier 0 through Tier 3, with just in time elevation and automatic expiry.
+
+Standing privilege is the problem. An admin account that is always an admin is always available to an attacker who takes it. JIT access means the privilege exists for the window it is needed and then does not, which shrinks the target from permanent to occasional.
+
+Expiry is the part that has to be automatic. Access that requires someone to remember to revoke it is access that persists.
 
 ## MITRE ATT&CK Coverage
 
-| Technique ID | Technique | ZTA Control |
-|---|---|---|
-| T1078 | Valid Accounts | MFA + Conditional Access |
-| T1110 | Brute Force | Risk-based lockout policies |
-| T1021 | Remote Services | ZTNA replaces VPN |
-| T1548 | Abuse Elevation Control | JIT access + approval workflow |
-| T1046 | Network Service Discovery | Micro segmentation blocks discovery |
-| T1570 | Lateral Tool Transfer | Cross-zone traffic policies |
-| T1530 | Data from Cloud Storage | Data classification + DLP |
-| T1567 | Exfiltration Over Web Service | DLP + outbound traffic monitoring |
-| T1486 | Data Encrypted for Impact | Micro-segmentation limits blast radius |
-| T1562 | Impair Defenses | EDR compliance monitoring |
+| Technique | ID | ZTA Control |
+| --- | --- | --- |
+| Valid accounts | T1078 | MFA and conditional access |
+| Brute force | T1110 | Risk based lockout |
+| Remote services | T1021 | ZTNA replacing VPN |
+| Abuse elevation control mechanism | T1548 | JIT access with approval |
+| Network service discovery | T1046 | Segmentation blocks the sweep |
+| Lateral tool transfer | T1570 | Cross zone traffic policy |
+| Data from cloud storage | T1530 | Classification and DLP |
+| Exfiltration over web service | T1567 | DLP and outbound monitoring |
+| Data encrypted for impact | T1486 | Segmentation limits blast radius |
+| Impair defences | T1562 | EDR compliance monitoring |
 
----
+Mapping note: these are the techniques the architecture is designed against, mapped control to technique. Nothing was observed. This is a design document.
 
-## SOC Analyst Findings
+## Findings
 
-- Traditional perimeter security leaves attackers free to move laterally once inside
-- Zero Trust eliminates implicit trust every access request is a detection opportunity
-- Identity is the new perimeter MFA and conditional access are the most critical controls
-- Micro-segmentation is the most effective control against ransomware lateral movement
-- Data classification is the foundation of all data protection controls
-- Assume Breach posture means the SOC hunts proactively not just reactively
+Perimeter security fails on one assumption: that inside means trusted. One credential defeats it.
 
----
+Zero Trust removes implicit trust, and the side effect is that every access decision becomes a logged event the SOC can detect on.
 
-## SOC Analyst Response
+Identity is the primary control surface. MFA and conditional access do more work than any other pair on this list.
 
-- Designed complete ZTA framework covering all 5 security domains
-- Produced 5 enterprise SOC policies with detection rules and MITRE ATT&CK mappings
-- Built tiered access model Tier 0 through Tier 3 with auto expiry controls
-- Designed 5-zone network segmentation model with SOC Zone isolation
-- Mapped automated response procedures for Severity 1, 2, and 3 ZTA violations
-- Delivered complete policy framework ready for enterprise deployment
+Micro segmentation is the strongest available control against lateral movement and ransomware spread.
 
----
+Classification is the prerequisite for every data control, and it is the one most often skipped.
 
-## Analyst Insight
+Assume breach is what makes proactive hunting a policy rather than an initiative.
 
-Zero Trust is not a product it is a philosophy. Every SOC analyst needs to understand it because it fundamentally changes how alerts are interpreted. In a Zero Trust environment, a user accessing a resource they've never accessed before is not normal traffic to be ignored it is a signal to be investigated. The SOC's job in a Zero Trust world is not just to respond to breaches it is to enforce the verification that Zero Trust requires at every layer.
+## The Honest Part
 
----
+This is architecture on paper. None of it is deployed.
 
-## Learning Outcome
+The tooling named, Azure AD, CrowdStrike, Zscaler, Purview, Splunk, is referenced as the category of product each control needs. I have hands on with Splunk. I have not deployed the others, and the design does not depend on having done so, but the distinction matters if anyone asks.
 
-- Understand the 3 core pillars of Zero Trust Architecture
-- Design Zero Trust policies across all 5 security domains
-- Build SOC detection rules aligned to Zero Trust violation patterns
-- Map Zero Trust controls to MITRE ATT&CK techniques
-- Understand how Zero Trust changes SOC detection and response strategy
-- Design network micro segmentation with SOC Zone isolation
-- Apply least privilege and JIT access principles to privileged account management
+What this demonstrates is the ability to reason about controls at the architecture level and translate them into detection logic, which is a different skill from operating them.
 
----
+## What This Demonstrates
+
+Understanding Zero Trust as a trust model rather than a product category.
+
+Translating each pillar into detection rules a SOC could actually run.
+
+Designing segmentation with the monitoring infrastructure protected from the estate it monitors.
+
+Knowing which control in each domain carries the most weight, and why.
+
+Mapping architecture controls to ATT&CK techniques, control to technique rather than alert to technique.
+
+Recognising that Zero Trust generates telemetry, and that telemetry is the SOC's return on it.
 
 ## Repository Structure
 
@@ -201,6 +194,5 @@ zero-trust-architecture-soc-framework/
 
 ---
 
-## Conclusion
-
-This project delivers a complete Zero Trust Architecture framework and SOC policy system for Nexus Corp. Five enterprise grade security policies were produced covering identity, devices, network, applications, and data each with detection rules, MITRE ATT&CK mappings, and automated response procedures. This framework demonstrates that a SOC analyst understands not just how to respond to threats, but how to design the architecture that makes threats harder to execute and easier to detect.
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-WilliamInCyber-blue?style=flat&logo=linkedin)](https://linkedin.com/in/WilliamInCyber)
+[![X](https://img.shields.io/badge/X-@WilliamInCyber-black?style=flat&logo=x)](https://x.com/WilliamInCyber)
