@@ -1,4 +1,4 @@
-# Day 22 – SOC Tier 1 Incident Report: Zero Trust Architecture & SOC Framework
+# SOC Tier 1 Incident Report: Zero Trust Architecture & SOC Framework
 
 ---
 
